@@ -211,4 +211,5 @@ void rock_paper_scissors::restart(const account_name& host) {
    });
 }
 
-EOSIO_ABI( rock_paper_scissors, (create)(close)(join)(move1)(move2)(restart))
+//EOSIO_ABI( rock_paper_scissors, (create)(close)(join)(move1)(move2)(restart))
+EOSIO_ABI( rock_paper_scissors, (create)(close)(move1)(move2)(restart))
