@@ -32,7 +32,7 @@ class rock_paper_scissors : public eosio::contract {
 		}
 		account_name	host;
 		account_name	challenger;
-		uint16_t		accepted = 0;
+		uint16_t		accepted = 1;
 
 		checksum256     ph_move_hash;
 		uint32_t		ph_move;
@@ -77,5 +77,8 @@ class rock_paper_scissors : public eosio::contract {
 	void gameend(const account_name& host, const account_name& challenger, const account_name& winner, const uint32_t& ph_move, const uint32_t& pc_move);
 	/// @abi action
 	void winns(const account_name& host, const account_name& challenger, const account_name& winner, const uint32_t& ph_move, const uint32_t& pc_move);
+
+	/// @abi action
+	void restart(const account_name& host);
 
 };
