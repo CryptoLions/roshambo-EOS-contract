@@ -70,10 +70,10 @@ class rock_paper_scissors : public eosio::contract {
 
 	/// @abi action
 	void move2(const account_name& host, const account_name& challenger, const account_name& by, const uint32_t& pmove, const uint32_t& pmove_nonce);
-
+/*
 	/// @abi action
 	void join(const account_name& host, const account_name& challenger);
-
+*/
 	void gameend(const account_name& host, const account_name& challenger, const account_name& winner, const uint32_t& ph_move, const uint32_t& pc_move);
 	/// @abi action
 	void winns(const account_name& host, const account_name& challenger, const account_name& winner, const uint32_t& ph_move, const uint32_t& pc_move);
