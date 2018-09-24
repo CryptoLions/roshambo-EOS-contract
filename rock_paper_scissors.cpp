@@ -23,7 +23,6 @@ using std::string;
 
 
 
-
 //Create new game (host as primary index)
 void rock_paper_scissors::create(const account_name& host, const account_name& challenger) {
 	require_auth(host);
@@ -37,7 +36,7 @@ void rock_paper_scissors::create(const account_name& host, const account_name& c
 	existing_host_games.emplace(host, [&]( auto& g ) {
 		g.challenger = challenger;
 		g.host = host;
-		g.accepted = 0;
+		g.accepted = 1;
 		g.ph_move = 0;
 		g.ph_move_nonce = 0;
 		g.pc_move = 0;
@@ -57,6 +56,7 @@ void rock_paper_scissors::close(const account_name& host, const account_name& ch
    existing_host_games.erase(itr);
 }
 
+/*
 //join game when player was invited
 void rock_paper_scissors::join(const account_name& host, const account_name& challenger) {
    require_auth(challenger);
@@ -73,6 +73,7 @@ void rock_paper_scissors::join(const account_name& host, const account_name& cha
 
 	});
 }
+*/
 
 //wirst move action - sumbiting hash of move and nonce
 void rock_paper_scissors::move1(const account_name& host, const account_name& challenger, const account_name& by, const checksum256& move_hash) {
@@ -177,4 +178,37 @@ void rock_paper_scissors::winns(const account_name& host, const account_name& ch
 	//by CryptoLions.io
 }
 
-EOSIO_ABI( rock_paper_scissors, (create)(close)(join)(move1)(move2))
+//restart game
+void rock_paper_scissors::restart(const account_name& host) {
+	require_auth(host);
+
+	games existing_host_games(_self, _self);
+	auto itr = existing_host_games.find( host );
+
+	eosio_assert(itr != existing_host_games.end(), "game doesn't exists");
+
+	eosio_assert(itr->ph_move != 0, "game not finished");
+	eosio_assert(itr->pc_move != 0, "game not finished");
+
+	existing_host_games.modify(itr, itr->host, []( auto& g ) {
+
+		checksum256 zh;
+		int index = 0;
+		while (index < 64) {
+			zh.hash[index] = 0;	
+			index++;
+		}
+
+		g.ph_move_hash = zh;
+		g.ph_move = 0;
+		g.ph_move_nonce = 0;
+		g.pc_move_hash = zh;
+		g.pc_move = 0;
+		g.pc_move_nonce = 0;
+		g.winner = N(none);
+		
+
+   });
+}
+
+EOSIO_ABI( rock_paper_scissors, (create)(close)(join)(move1)(move2)(restart))
