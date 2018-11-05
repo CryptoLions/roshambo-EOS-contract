@@ -53,6 +53,11 @@ void rock_paper_scissors::close(const account_name& host, const account_name& ch
 
    auto itr = existing_host_games.find( host );
    eosio_assert(itr != existing_host_games.end(), "game doesn't exists");
+	
+   if ((itr->ph_move == 0 && itr->pc_move != 0) || (itr->ph_move != 0 && itr->pc_move == 0)){
+        eosio_assert(1!=1, "you can't close game in the middle");
+   }
+	
    existing_host_games.erase(itr);
 }
 
