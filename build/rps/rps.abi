@@ -1,0 +1,319 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Feb  4 11:50:31 2019",
+    "version": "eosio::abi/1.1",
+    "structs": [
+        {
+            "name": "close",
+            "base": "",
+            "fields": [
+                {
+                    "name": "host",
+                    "type": "name"
+                },
+                {
+                    "name": "id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "config",
+            "base": "",
+            "fields": [
+                {
+                    "name": "lastid",
+                    "type": "uint64"
+                },
+                {
+                    "name": "gametimeout",
+                    "type": "uint64"
+                },
+                {
+                    "name": "TICKER_TIME",
+                    "type": "uint32"
+                },
+                {
+                    "name": "lastticker",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "create",
+            "base": "",
+            "fields": [
+                {
+                    "name": "host",
+                    "type": "name"
+                },
+                {
+                    "name": "challenger",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "game",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "host",
+                    "type": "name"
+                },
+                {
+                    "name": "challenger",
+                    "type": "name"
+                },
+                {
+                    "name": "ph_move_hash",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "ph_move",
+                    "type": "uint32"
+                },
+                {
+                    "name": "ph_move_nonce",
+                    "type": "uint32"
+                },
+                {
+                    "name": "pc_move_hash",
+                    "type": "checksum256"
+                },
+                {
+                    "name": "pc_move",
+                    "type": "uint32"
+                },
+                {
+                    "name": "pc_move_nonce",
+                    "type": "uint32"
+                },
+                {
+                    "name": "winner",
+                    "type": "name"
+                },
+                {
+                    "name": "cdate",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "move1",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "by",
+                    "type": "name"
+                },
+                {
+                    "name": "move_hash",
+                    "type": "checksum256"
+                }
+            ]
+        },
+        {
+            "name": "move2",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "by",
+                    "type": "name"
+                },
+                {
+                    "name": "pmove",
+                    "type": "uint32"
+                },
+                {
+                    "name": "pmove_nonce",
+                    "type": "uint32"
+                }
+            ]
+        },
+        {
+            "name": "restart",
+            "base": "",
+            "fields": [
+                {
+                    "name": "host",
+                    "type": "name"
+                },
+                {
+                    "name": "id",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "test",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "ticker",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "winns",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "host",
+                    "type": "name"
+                },
+                {
+                    "name": "challenger",
+                    "type": "name"
+                },
+                {
+                    "name": "winner",
+                    "type": "name"
+                },
+                {
+                    "name": "ph_move",
+                    "type": "uint32"
+                },
+                {
+                    "name": "pc_move",
+                    "type": "uint32"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "close",
+            "type": "close",
+            "ricardian_contract": "## ACTION NAME: close [Roshambo - Rock Paper Scissors Game]\n\t\tThis action close a game.\n\t\n\t### Input parameters:  \n\t`host` - game creator account name \n\t`id` - game id\n\t\n\t### Intent\n\tINTENT. This action closes a game and removes it from the table, freeing the {{host}}'s RAM.\n\t\t\tClose game is available only for game creator, {{host}}, and only when no one has revealed their move by executing action move2. If one player player executed action move2, the game cannot be closed. In this case game will be closed automatically by timeout in (5-10 min). \n\n\t### Term\n\tTERM. This Contract expires at the conclusion of code execution.\n\t\n\tby CryptoLions [ https://CryptoLions.io ]"
+        },
+        {
+            "name": "create",
+            "type": "create",
+            "ricardian_contract": "## ACTION NAME: create [Roshambo - Rock Paper Scissors Game]\n\t\tCreate new roshambo game.\n\t\n\t### Input parameters:  \n\t`host` - game creator account name \n\t`challenger` - account name of opponent\n\t\n\t### Intent\n\tINTENT. Create new roshambo game between EOS accounts {{host}} and {{challenger}}. {{host}}'s RAM will be used and freed after the game is finished.\n\n\t### Term\n\tTERM. This Contract expires at the conclusion of code execution.\n\t\n\tby CryptoLions [ https://cryptolions.io ]"
+        },
+        {
+            "name": "move1",
+            "type": "move1",
+            "ricardian_contract": "## ACTION NAME: move1 [Roshambo - Rock Paper Scissors Game]\n\t\tWith this action both player send the sha256 hash created using his move + random nonce\n\t\n\t### Input parameters:  \n\t`id` - game id\n\t`by` - account (host or challenger) who makes a move\n\t`move_hash` - hash of player move (move code + random nonce)\n\t\n\t### Intent\n\tINTENT. With this action, player {{by}} sends a hash of their move using the move + random nonce in a sha256 hash.\n\t\t\tAction can be sent once per game. \n\n\t### Term\n\tTERM. This Contract expires at the conclusion of code execution.\n\t\n\tby CryptoLions [ https://CryptoLions.io ]"
+        },
+        {
+            "name": "move2",
+            "type": "move2",
+            "ricardian_contract": "## ACTION NAME: move2 [Roshambo - Rock Paper Scissors Game]\n\t\tWith this action both player reveal the chosen move sent as a hash in action move1.  They do this by sending move code and random nonce. Move code and random nonce are used to generate sha256 hash and compare with sha256 hash sent in move1.\n\t\tIn case both player confirm move - detect winner and call gameend function.\n\t\t\n\t### Input parameters:  \n\t`id` - game id\n\t`by` - account (host or challenger) who makes a move\n\t`pmove` - move code (1 = rock, 2 = paper, 3 = scissors) \n\t`pmove_nonce` - randmo nonce generated on move1 action\n\t\n\t### Intent\n\tINTENT. With this action both player reveal the chosen move sent as a hash in action move1.  They do this by sending move code and random nonce. Move code and random nonce are used to generate sha256 hash and compare with sha256 hash sent in move1.\n\tIn case both player confirm move - detect winner and call gameend function.\n\n\t### Term\n\tTERM. This Contract expires at the conclusion of code execution.\n\t\n\tby CryptoLions [ https://CryptoLions.io ]"
+        },
+        {
+            "name": "restart",
+            "type": "restart",
+            "ricardian_contract": "## ACTION NAME: restart [Roshambo - Rock Paper Scissors Game]\n\t\tRestart game action.\n\t\tStart new game with same host and challenger but new id.\n\t\tCan be called when game is finished only.\n\t\t\n\t### Input parameters:  \n\t`host` - game creator account name \n\t`id` - game id\n\t\n\t### Intent\n\tINTENT. Start new game of roshambo between {{host}} and {{challenger}} but new id.\n\t\t\tCan be called when another game between these two accounts has just finished\n\n\t### Term\n\tTERM. This Contract expires at the conclusion of code execution.\n\t\n\tby CryptoLions [ https://CryptoLions.io ]"
+        },
+        {
+            "name": "test",
+            "type": "test",
+            "ricardian_contract": "## ACTION NAME: test [Roshambo - Rock Paper Scissors Game]\n\t\tDo nothing just for test\n\t\n\tby CryptoLions [ https://CryptoLions.io ]"
+        },
+        {
+            "name": "ticker",
+            "type": "ticker",
+            "ricardian_contract": "## ACTION NAME: ticker [Roshambo - Rock Paper Scissors Game]\n\t\tCan be called by this contract only. \n\t\tCreate new deferred ticker in case there are active games  \n\n\t\n\t### Input parameters:  \n\tno input parametrs\n\t\n\t### Intent\n\tINTENT. Can be called by this contract only. \n\t\t\tCreate new deferred ticker in case there are active games  \n\n\t### Term\n\tTERM. This Contract expires at the conclusion of code execution.\n\t\n\tby CryptoLions [ https://CryptoLions.io ]"
+        },
+        {
+            "name": "winns",
+            "type": "winns",
+            "ricardian_contract": "## ACTION NAME: winns [Roshambo - Rock Paper Scissors Game]\n\t\twinns action\n\t\tTo record game log\n\t\tCan be called only by this contract\n\t\n\t### Input parameters:  \n\t`id` - game id\n\t`host` - game creator account name \n\t`challanger` - opponent account name \n\t`winner` - winner account name\n\t`ph_move` - host move code (1 = rock, 2 = paper, 3 = scissors) \n\t`pc_move` - challenger move code (1 = rock, 2 = paper, 3 = scissors) \n\t\n\t\n\t### Intent\n\tINTENT. winns action\n\t\tTo record game log\n\t\tCan be called only by this contract\n\n\n\t### Term\n\tTERM. This Contract expires at the conclusion of code execution.\n\t\n\tby CryptoLions [ https://CryptoLions.io ]"
+        }
+    ],
+    "tables": [
+        {
+            "name": "config",
+            "type": "config",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "games",
+            "type": "game",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [
+        {
+            "id": "Warranty",
+            "body": "The invoker of the contract action shall uphold its Obligations under this Contract in a timely and workmanlike manner, using knowledge and recommendations for performing the services which meet generally acceptable standards set forth by EOS.IO Blockchain Block Producers."
+        },
+        {
+            "id": "Default",
+            "body": "The occurrence of any of the following shall constitute a material default under this Contract:"
+        },
+        {
+            "id": "Remedies",
+            "body": "In addition to any and all other rights a party may have available according to law, if a party defaults by failing to substantially perform any provision, term or condition of this Contract, the other party may terminate the Contract by providing written notice to the defaulting party. This notice shall describe with sufficient detail the nature of the default. The party receiving such notice shall promptly be removed from being a Block Producer and this Contract shall be automatically terminated."
+        },
+        {
+            "id": "ForceMajeure",
+            "body": "If performance of this Contract or any obligation under this Contract is prevented, restricted, or interfered with by causes beyond either party's reasonable control (\"Force Majeure\"), and if the party unable to carry out its obligations gives the other party prompt written notice of such event, then the obligations of the party invoking this provision shall be suspended to the extent necessary by such event. The term Force Majeure shall include, without limitation, acts of God, fire, explosion, vandalism, storm or other similar occurrence, orders or acts of military or civil authority, or by national emergencies, insurrections, riots, or wars, or strikes, lock-outs, work stoppages, or supplier failures. The excused party shall use reasonable efforts under the circumstances to avoid or remove such causes of non-performance and shall proceed to perform with reasonable dispatch whenever such causes are removed or ceased. An act or omission shall be deemed within the reasonable control of a party if committed, omitted, or caused by such party, or its employees, officers, agents, or affiliates."
+        },
+        {
+            "id": "DisputeResolution",
+            "body": "Any controversies or disputes arising out of or relating to this Contract will be resolved by binding arbitration under the default rules set forth by the EOS.IO Blockchain. The arbitrator's award will be final, and judgment may be entered upon it by any court having proper jurisdiction."
+        },
+        {
+            "id": "EntireAgreement",
+            "body": "This Contract contains the entire agreement of the parties, and there are no other promises or conditions in any other agreement whether oral or written concerning the subject matter of this Contract. This Contract supersedes any prior written or oral agreements between the parties."
+        },
+        {
+            "id": "Severability",
+            "body": "If any provision of this Contract will be held to be invalid or unenforceable for any reason, the remaining provisions will continue to be valid and enforceable. If a court finds that any provision of this Contract is invalid or unenforceable, but that by limiting such provision it would become valid and enforceable, then such provision will be deemed to be written, construed, and enforced as so limited."
+        },
+        {
+            "id": "Amendment",
+            "body": "This Contract may be modified or amended in writing by mutual agreement between the parties, if the writing is signed by the party obligated under the amendment."
+        },
+        {
+            "id": "GoverningLaw",
+            "body": "This Contract shall be construed in accordance with the Maxims of Equity."
+        },
+        {
+            "id": "Notice",
+            "body": "Any notice or communication required or permitted under this Contract shall be sufficiently given if delivered to a verifiable email address or to such other email address as one party may have publicly furnished in writing, or published on a broadcast contract provided by this blockchain for purposes of providing notices of this type."
+        },
+        {
+            "id": "WaiverOfContractualRight",
+            "body": "The failure of either party to enforce any provision of this Contract shall not be construed as a waiver or limitation of that party's right to subsequently enforce and compel strict compliance with every provision of this Contract."
+        },
+        {
+            "id": "ArbitratorsFees_",
+            "body": "In any action arising hereunder or any separate action pertaining to the validity of this Agreement, both sides shall pay half the initial cost of arbitration, and the prevailing party shall be awarded reasonable arbitrator's fees and costs."
+        },
+        {
+            "id": "ConstructionAndInterpretation",
+            "body": "The rule requiring construction or interpretation against the drafter is waived. The document shall be deemed as if it were drafted by both parties in a mutual effort."
+        },
+        {
+            "id": "InWitnessWhereof",
+            "body": "In witness whereof, the parties hereto have caused this Agreement to be executed by themselves or their duly authorized representatives as of the date of execution, and authorized as proven by the cryptographic signature on the transaction that invokes this contract."
+        }
+    ],
+    "variants": [],
+    "abi_extensions": []
+}
