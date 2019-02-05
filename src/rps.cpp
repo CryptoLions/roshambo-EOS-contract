@@ -66,12 +66,9 @@ void rps::deftx(uint64_t delay ) {
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 /*
-*	Create new game action
+* Create new game action
 */
 ACTION rps::create( name host, name challenger ) {
-
-	_conf conf(_self, _self.value);
-	_cstate = conf.exists() ? conf.get() : config{};
 
 	require_auth(host);
 	check(challenger != host, "challenger shouldn't be the same as host");
@@ -112,9 +109,6 @@ ACTION rps::create( name host, name challenger ) {
 ACTION rps::close( name host, uint64_t id ) {
    
 	require_auth(host.value);
-
-	_conf conf(_self, _self.value);
-	_cstate = conf.exists() ? conf.get() : config{};
 
 	games existing_host_games(_self, _self.value);
 
@@ -298,7 +292,7 @@ ACTION rps::restart( name host, uint64_t id) {
 * Can be called only by this contract
 */
 ACTION rps::winns( uint64_t id, name host, name challenger, name winner, uint32_t ph_move, uint32_t pc_move) {
-		require_auth(get_self()); //Only allowed for this contract. By CryptoLions.io
+	require_auth(get_self()); //Only allowed for this contract. By CryptoLions.io
 }
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
